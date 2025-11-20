@@ -3,9 +3,11 @@ project(imgui)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(FREETYPE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../freetype/include/freetype2)
+set(FREETYPE_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/../freetype/lib/freetype.lib)
 find_package(Freetype REQUIRED)
 
-add_library(imgui OBJECT
+add_library(imgui STATIC
   source/imgui.cpp
   source/imgui_demo.cpp
   source/imgui_draw.cpp

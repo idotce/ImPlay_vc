@@ -360,13 +360,17 @@ void Debug::Console::AddLog(const char* level, const char* fmt, ...) {
   size = std::vsnprintf(nullptr, 0, fmt, copy);
   va_end(copy);
 
-  char buf[size + 1];
-  std::vsnprintf(buf, size, fmt, args);
-  buf[size] = '\0';
+  //char buf[size + 1];
+  //std::vsnprintf(buf, size, fmt, args);
+  //buf[size] = '\0';
+  //va_end(args);
+  std::vector<char> buf(size + 1);
+  std::vsnprintf(buf.data(), size + 1, fmt, args);
   va_end(args);
 
   int fontIdx = 1;  // mono
-  const char* p = buf;
+  //const char* p = buf;
+  const char* p = buf.data();
   auto mono = ImGui::GetIO().Fonts->Fonts[fontIdx];
   while (*p) {
     if (*p != '\n' && *p != '\r' && !mono->IsGlyphInFont((ImWchar)*p)) {
@@ -376,7 +380,8 @@ void Debug::Console::AddLog(const char* level, const char* fmt, ...) {
     p++;
   }
 
-  Items.push_back({ImStrdup(buf), level, fontIdx});
+  //Items.push_back({ImStrdup(buf), level, fontIdx});
+  Items.push_back({ImStrdup(buf.data()), level, fontIdx});
   if (Items.Size > LogLimit) {
     int offset = Items.Size - LogLimit;
     for (int i = 0; i < offset; i++) free(Items[i].Str);

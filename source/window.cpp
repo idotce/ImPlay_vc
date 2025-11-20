@@ -1,5 +1,8 @@
 // Copyright (c) 2022-2025 tsl0922. All rights reserved.
 // SPDX-License-Identifier: GPL-2.0-only
+#ifdef _WIN32
+#define NOMINMAX
+#endif
 
 #include <algorithm>
 #include <stdexcept>
