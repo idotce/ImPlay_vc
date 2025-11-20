@@ -1,6 +1,8 @@
 https://github.com/tsl0922/ImPlay
 
+
 ## Build
+first d:\msys64\usr\bin\ to Path
 VC
 cd ImPlay
 mkdir _build && cd _build
@@ -18,13 +20,13 @@ ImPlay_vc\_build\_CPack_Packages\win64\ZIP\ImPlay-0.0.0-win64\
 
 
 ## libmpv.dll.a To mpv.lib
-# mingw
+// mingw
 nm libmpv.a | grep " T mpv_" | awk '{print $3}' > mpv_symbols.txt
 echo "LIBRARY libmpv-2.dll" > mpv.def
 echo "EXPORTS" >> mpv.def
-# 将符号列表追加到 def 文件
+// 将符号列表追加到 def 文件
 cat mpv_symbols.txt >> mpv.def
-# vs Developer Command
+// vs Developer Command
 lib /def:mpv.def /out:mpv.lib /machine:x64
 
 
