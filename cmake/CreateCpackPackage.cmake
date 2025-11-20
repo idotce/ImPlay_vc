@@ -12,6 +12,7 @@ function(get_mpv_win_bin name)
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ${CMAKE_COMMAND} -E copy <SOURCE_DIR>/mpv.com ${CMAKE_BINARY_DIR}/ImPlay.com
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/mpv_dev-prefix/src/mpv_dev/libmpv-2.dll ${CMAKE_BINARY_DIR}
             COMMAND ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/doc ${CMAKE_BINARY_DIR}/doc
   )
 endfunction()
@@ -56,15 +57,16 @@ macro(prepare_package)
     install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION .)
     install(DIRECTORY ${CMAKE_BINARY_DIR}/doc DESTINATION .)
     install(FILES ${CMAKE_BINARY_DIR}/ImPlay.com DESTINATION .)
+    install(FILES ${CMAKE_BINARY_DIR}/libmpv-2.dll DESTINATION .)
     install(FILES ${CMAKE_BINARY_DIR}/yt-dlp.exe DESTINATION .)
-    
+
     if(USE_OPENGL_ES3)
       get_electron_bin(electron_bin)
       add_dependencies(${PROJECT_NAME} electron_bin)
       install(FILES ${CMAKE_BINARY_DIR}/libEGL.dll DESTINATION .)
       install(FILES ${CMAKE_BINARY_DIR}/libGLESv2.dll DESTINATION .)
     endif()
-    
+
     install(CODE [[file(GET_RUNTIME_DEPENDENCIES
       EXECUTABLES $<TARGET_FILE:ImPlay>
       RESOLVED_DEPENDENCIES_VAR _r_deps
@@ -93,14 +95,14 @@ macro(prepare_package)
       MACOSX_BUNDLE TRUE
       MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/resources/macos/Info.plist.in
     )
-    
+
     target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/resources/macos/AppIcon.icns)
     set_source_files_properties(${PROJECT_SOURCE_DIR}/resources/macos/AppIcon.icns
       PROPERTIES MACOSX_PACKAGE_LOCATION Resources
     )
 
     install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .)
-    
+
     set(APP "\${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app")
     set(DIRS "/usr/local/lib" "/lib" "/usr/lib")
     file(GLOB_RECURSE LIBS "${APP}/Contents/MacOS/*.dylib")
@@ -120,12 +122,13 @@ endmacro()
 
 macro(create_package)
   if(WIN32)
-    set(CPACK_GENERATOR ZIP WIX)
-    set(CPACK_WIX_PATCH_FILE "${PROJECT_SOURCE_DIR}/resources/win32/wix/patch.xml")
-    set(CPACK_WIX_PRODUCT_ICON "${PROJECT_SOURCE_DIR}/resources/win32/app.ico")
-    set(CPACK_WIX_UPGRADE_GUID "D7438EFE-D62A-4E94-A024-6E71AE1A7A63")
-    set(CPACK_WIX_PROGRAM_MENU_FOLDER ".")
-    set_property(INSTALL "$<TARGET_FILE_NAME:ImPlay>" PROPERTY CPACK_START_MENU_SHORTCUTS "ImPlay")
+    set(CPACK_GENERATOR ZIP)
+    #set(CPACK_GENERATOR ZIP WIX)
+    #set(CPACK_WIX_PATCH_FILE "${PROJECT_SOURCE_DIR}/resources/win32/wix/patch.xml")
+    #set(CPACK_WIX_PRODUCT_ICON "${PROJECT_SOURCE_DIR}/resources/win32/app.ico")
+    #set(CPACK_WIX_UPGRADE_GUID "D7438EFE-D62A-4E94-A024-6E71AE1A7A63")
+    #set(CPACK_WIX_PROGRAM_MENU_FOLDER ".")
+    #set_property(INSTALL "$<TARGET_FILE_NAME:ImPlay>" PROPERTY CPACK_START_MENU_SHORTCUTS "ImPlay")
   elseif (APPLE)
     set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})
     set(MACOSX_BUNDLE_ICON_FILE "AppIcon")
