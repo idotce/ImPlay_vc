@@ -2,7 +2,6 @@ https://github.com/tsl0922/ImPlay
 
 
 ## Build
-first d:\msys64\usr\bin\ to Path
 VC
 cd ImPlay
 mkdir _build && cd _build
@@ -47,3 +46,4 @@ c:\cmake\bin\cmake .. -G "Visual Studio 16 2019" ^
     -DCMAKE_INSTALL_PREFIX=../install
 c:\cmake\bin\cmake --build . --config Release -j16
 c:\cmake\bin\cmake --install . --config Release
+
