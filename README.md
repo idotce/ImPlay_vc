@@ -2,6 +2,7 @@ https://github.com/tsl0922/ImPlay
 
 
 ## Build
+```
 VC
 cd ImPlay
 mkdir _build && cd _build
@@ -13,12 +14,13 @@ c:\cmake\bin\cmake .. -G "Visual Studio 16 2019" ^
     -DCREATE_PACKAGE=ON
 c:\cmake\bin\cmake --build . --config Release -j16
 c:\cmake\bin\cmake --build . --config Release --target package
-
-out
-ImPlay_vc\_build\_CPack_Packages\win64\ZIP\ImPlay-0.0.0-win64\
+```
+out  
+ImPlay_vc\_build\_CPack_Packages\win64\ZIP\ImPlay-0.0.0-win64\  
 
 
 ## libmpv.dll.a To mpv.lib
+```
 // mingw
 nm libmpv.a | grep " T mpv_" | awk '{print $3}' > mpv_symbols.txt
 echo "LIBRARY libmpv-2.dll" > mpv.def
@@ -27,9 +29,11 @@ echo "EXPORTS" >> mpv.def
 cat mpv_symbols.txt >> mpv.def
 // vs Developer Command
 lib /def:mpv.def /out:mpv.lib /machine:x64
+```
 
 
 ##  build libfreetype
+```
 wget https://mirror.accum.se/mirror/gnu.org/savannah/freetype/freetype-2.14.1.tar.xz
 tar xvf freetype-2.14.1.tar.xz
 mv freetype-2.14.1 freetype
@@ -46,4 +50,4 @@ c:\cmake\bin\cmake .. -G "Visual Studio 16 2019" ^
     -DCMAKE_INSTALL_PREFIX=../install
 c:\cmake\bin\cmake --build . --config Release -j16
 c:\cmake\bin\cmake --install . --config Release
-
+```
