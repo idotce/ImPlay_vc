@@ -18,7 +18,7 @@ cmake_dependent_option(USE_MPV_WIN_BUILD "Use Prebuilt static mpv dll on Windows
 cmake_dependent_option(USE_XDG_PORTAL "Use xdg-desktop-portal for file dialogs on Linux" OFF "UNIX;NOT APPLE" OFF)
 
 find_package(Threads REQUIRED)
-find_package(PkgConfig REQUIRED)
+#find_package(PkgConfig REQUIRED)
 
 if(USE_MPV_WIN_BUILD)
   include(GetMpvWinDev)
@@ -92,7 +92,7 @@ endif()
 if(CREATE_PACKAGE)
   include(CreateCpackPackage)
   prepare_package()
-  create_package()
+  #create_package()
 else()
   include(GNUInstallDirs)
   install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
